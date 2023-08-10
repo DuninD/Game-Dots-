@@ -23,7 +23,7 @@ class Account:
         button_rect_start = pygame.Rect(x + 240, y, 150, 24)
         button_rect_new = pygame.Rect(x + 240, y + 30, 150, 24)
         field_rect = pygame.Rect(x + 30, y, 150, 24)
-        self.save.data["users"].sort(key=lambda item: (item[1], item[0]))
+        self.save.data["users"].sort(key=lambda item: (-item[1], item[0]))
         while not ready:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
