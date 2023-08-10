@@ -35,7 +35,7 @@ class Account:
                         ready = True
                         break
                     elif button_rect_start.collidepoint(event.pos) and self.can_join:
-                        self.save.data["users"].append(([ord(x) for x in self.current_text], 0))
+                        self.save.data["users"].append([[ord(x) for x in self.current_text], 0])
                         self.save.write(self.save.data, 'users.json')
                         self.gf.current_player = [ord(x) for x in self.current_text]
                         ready = True

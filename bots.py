@@ -52,7 +52,9 @@ class Computer:
                     if self.count == 40:
                         self.count = 0
                         break
-                    if self.game_logic.gf.grid[self.last_x + delta_i + di][self.last_y + delta_j + dj] is not None \
+                    if (di != 0 or dj != 0) and 0 <= self.last_x + delta_i <= self.game_logic.gf.grid_size - 1 and\
+                        0 <= self.last_y + delta_j <= self.game_logic.gf.grid_size - 1 and \
+                            self.game_logic.gf.grid[self.last_x + delta_i + di][self.last_y + delta_j + dj] is not None\
                             and self.game_logic.gf.grid[self.last_x + delta_i + di][self.last_y + delta_j + dj] % 1 \
                             == 0 and self.game_logic.gf.grid[self.last_x + delta_i + di][self.last_y + delta_j + dj] \
                             != self.game_logic.CURRENT_PLAYER:
