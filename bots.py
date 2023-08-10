@@ -1,5 +1,6 @@
 import random
 
+
 class Computer:
     def __init__(self, grid_size, game_logic):
         self.grid_size = grid_size
