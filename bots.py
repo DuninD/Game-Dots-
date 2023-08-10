@@ -20,6 +20,9 @@ class Computer:
                 break
 
     def hard_bot(self, player_x, player_y):
+        self.i = -1
+        self.count1 = 0
+        self.count = 0
         while True:
             delta_i = random.randint(-1, 1)
             delta_j = random.randint(-1, 1)
@@ -39,8 +42,6 @@ class Computer:
                         self.last_y = player_y + delta_j
                         self.last.append((self.last_x, self.last_y))
                         self.game_logic.next_move(self.last_x, self.last_y)
-                        self.count1 = 0
-                        self.count = 0
                         return
             elif (delta_i != 0 or delta_j != 0) and 0 <= self.last_x + delta_i <= self.game_logic.gf.grid_size - 1 and\
                     0 <= self.last_y + delta_j <= self.game_logic.gf.grid_size - 1 and \
@@ -52,8 +53,8 @@ class Computer:
                     if self.count == 40:
                         self.count = 0
                         break
-                    if (di != 0 or dj != 0) and 0 <= self.last_x + delta_i <= self.game_logic.gf.grid_size - 1 and\
-                        0 <= self.last_y + delta_j <= self.game_logic.gf.grid_size - 1 and \
+                    if (di != 0 or dj != 0) and 0 <= self.last_x + delta_i + di <= self.game_logic.gf.grid_size - 1 and\
+                        0 <= self.last_y + delta_j + dj <= self.game_logic.gf.grid_size - 1 and \
                             self.game_logic.gf.grid[self.last_x + delta_i + di][self.last_y + delta_j + dj] is not None\
                             and self.game_logic.gf.grid[self.last_x + delta_i + di][self.last_y + delta_j + dj] % 1 \
                             == 0 and self.game_logic.gf.grid[self.last_x + delta_i + di][self.last_y + delta_j + dj] \
@@ -62,6 +63,4 @@ class Computer:
                         self.last_y += delta_j
                         self.last.append((self.last_x, self.last_y))
                         self.game_logic.next_move(self.last_x, self.last_y)
-                        self.count1 = 0
-                        self.count = 0
                         return
