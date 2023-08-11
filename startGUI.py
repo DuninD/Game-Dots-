@@ -18,6 +18,7 @@ class StartGUI:
     def draw_dropdown(self, screen, string1, options, continue_str, selected_option, x, y):
         is_dropdown_open = False
         choose = False
+        button_rect_exit = pygame.Rect(x + 200, y + 30, 150, 24)
         while not choose:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -25,7 +26,20 @@ class StartGUI:
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     exit_rect = pygame.Rect(x + 200, y, 150, self.FONT_SIZE)
+                    if button_rect_exit.collidepoint(event.pos) and not self.gf.is_game_mode:
+                        if not self.gf.is_game_option:
+                            self.gf.is_game_option = True
+                        else:
+                            self.gf.is_game_mode = True
+                        choose = True
+                        break
                     if exit_rect.collidepoint(event.pos):
+                        if self.gf.is_game_mode:
+                            self.gf.is_game_mode = False
+                        elif self.gf.is_game_option:
+                            self.gf.is_game_option = False
+                        else:
+                            self.gf.is_grid_size = False
                         choose = True
                         break
                     if not is_dropdown_open:
@@ -48,7 +62,10 @@ class StartGUI:
             self.draw_text(screen, string1, (x + 5, y + 3))
             button_rect_start = pygame.Rect(x + 200, y, 150, self.FONT_SIZE)
             pygame.draw.rect(screen, self.BLACK, button_rect_start, 1)
-            self.draw_text(screen, continue_str, (x + 5 + 200, y + 3))
+            self.draw_text(screen, continue_str, (x + 226, y + 3))
+            if not self.gf.is_game_mode:
+                pygame.draw.rect(screen, self.BLACK, button_rect_exit, 1)
+                self.draw_text(screen, "Назад", (x + 251, y + 3 + 30))
             if is_dropdown_open:
                 for i, option in enumerate(options):
                     option_rect = pygame.Rect(x, y + (i + 1) * self.FONT_SIZE, 150, self.FONT_SIZE)

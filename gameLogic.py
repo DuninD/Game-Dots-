@@ -10,6 +10,7 @@ class GameLogic:
         self.gf = gf
         self.players = players
         self.save = save
+        self.to_menu = False
 
     def find_loop(self, i, j, player_color, path, start_edge):
         incoming_path = path.copy()
@@ -60,28 +61,38 @@ class GameLogic:
     def game_loop(self):
         computer = bots.Computer(self.gf.grid_size, self)
         self.players.draw_result()
-        while True:
+        button_rect_exit = pg.Rect(840, 160, 150, 24)
+        while not self.to_menu:
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     pg.quit()
                     sys.exit()
                 if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
+                    if button_rect_exit.collidepoint(event.pos):
+                        self.to_menu = True
+                        self.gf.is_game_mode = True
+                        self.gf.is_game_option = True
+                        self.gf.is_grid_size = True
+                        break
                     x, y = pg.mouse.get_pos()
                     i = round((x - self.gf.space // 2) / self.gf.space)
                     j = round((y - self.gf.space // 2) / self.gf.space)
                     if i < self.gf.grid_size and self.gf.grid[i][j] is None:
                         self.next_move(i, j)
-                        for item in self.save.data["users"]:
-                            if item[0] == self.gf.current_player:
-                                item[1] = max(self.players.points[(self.CURRENT_PLAYER - 1) % self.gf.count_players],
-                                              item[1])
-                                self.save.write(self.save.data, 'users.json')
                         if self.gf.with_easy_bot:
                             computer.easy_bot()
                         elif self.gf.with_hard_bot:
+                            for item in self.save.data["users"]:
+                                if item[0] == self.gf.current_player:
+                                    item[1] = max(
+                                        self.players.points[(self.CURRENT_PLAYER - 1) % self.gf.count_players], item[1])
+                                    self.save.write(self.save.data, 'users.json')
                             computer.hard_bot(i, j)
                         self.players.draw_result()
             self.gf.draw_circles()
+            self.gf.screen.fill((255, 250, 250), [[840, 159], [999, 230]])
+            self.gf.screen.blit(pg.font.Font(None, 24).render("Выйти в меню", True, (0, 0, 0)), (860, 163))
+            pg.draw.rect(self.gf.screen, (0, 0, 0), button_rect_exit, 1)
             pg.display.flip()
 
     def next_move(self, i, j):

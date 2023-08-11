@@ -7,6 +7,9 @@ class Account:
     def __init__(self, gui, save_data, gf):
         self.write_now = False
         self.current_text = ""
+        if len(save_data.data["users"]) > 0:
+            for letter in [chr(x) for x in save_data.data["users"][0][0]]:
+                self.current_text += letter
         self.gui = gui
         self.WHITE = (255, 255, 255)
         self.BLACK = (0, 0, 0)
@@ -31,11 +34,16 @@ class Account:
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     if button_rect_start.collidepoint(event.pos) and self.can_log_in:
+                        for item in self.save.data["users"]:
+                            if item[0] == [ord(x) for x in self.current_text]:
+                                self.save.data["users"].remove(item)
+                                self.save.data["users"].insert(0, item)
+                        self.save.write(self.save.data, 'users.json')
                         self.gf.current_player = [ord(x) for x in self.current_text]
                         ready = True
                         break
                     elif button_rect_start.collidepoint(event.pos) and self.can_join:
-                        self.save.data["users"].append([[ord(x) for x in self.current_text], 0])
+                        self.save.data["users"].insert(0, [[ord(x) for x in self.current_text], 0])
                         self.save.write(self.save.data, 'users.json')
                         self.gf.current_player = [ord(x) for x in self.current_text]
                         ready = True
@@ -43,6 +51,9 @@ class Account:
                     elif button_rect_new.collidepoint(event.pos) and not self.new:
                         self.new = True
                         self.can_log_in = False
+                        self.current_text = ""
+                    elif button_rect_new.collidepoint(event.pos) and self.new:
+                        self.new = False
                         self.current_text = ""
                 elif event.type == pygame.KEYDOWN and self.can_write:
                     keyboard.hook(self.pressed_keys)
@@ -56,6 +67,7 @@ class Account:
             screen.fill((255, 255, 255))
             self.gui.draw_text(screen, self.current_text, (x + 32, y + 2))
             pygame.draw.rect(screen, self.BLACK, button_rect_start, 1)
+            pygame.draw.rect(screen, self.BLACK, button_rect_new, 1)
             for i, option in enumerate(self.save.data["users"]):
                 username = ""
                 score = option[1]
@@ -71,9 +83,9 @@ class Account:
             if not self.new:
                 self.gui.draw_text(screen, "Войти", (x + 291, y + 3))
                 self.gui.draw_text(screen, "Присоединиться", (x + 246, y + 3 + 30))
-                pygame.draw.rect(screen, self.BLACK, button_rect_new, 1)
             else:
-                self.gui.draw_text(screen, "Начать", (x + 291, y + 3))
+                self.gui.draw_text(screen, "Начать", (x + 289, y + 3))
+                self.gui.draw_text(screen, "Назад", (x + 291, y + 3 + 30))
             if not self.new:
                 self.gui.draw_text(screen, "Введите имя пользователя", (x, y - 30))
                 if self.current_text == "":

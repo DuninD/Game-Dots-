@@ -17,6 +17,10 @@ class GameField:
         self.with_hard_bot = False
         self.with_bot = False
         self.current_player = []
+        self.is_game_mode = True
+        self.is_game_option = True
+        self.is_grid_size = True
+
 
     def update(self, grid_size, count_players):
         self.grid_size = grid_size
