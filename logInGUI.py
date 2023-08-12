@@ -68,6 +68,10 @@ class Account:
             self.gui.draw_text(screen, self.current_text, (x + 32, y + 2))
             pygame.draw.rect(screen, self.BLACK, button_rect_start, 1)
             pygame.draw.rect(screen, self.BLACK, button_rect_new, 1)
+            if button_rect_start.collidepoint(pygame.mouse.get_pos()):
+                self.gf.screen.fill((203, 203, 203), pygame.Rect(x + 241, y + 1, 148, 22))
+            if button_rect_new.collidepoint(pygame.mouse.get_pos()):
+                self.gf.screen.fill((203, 203, 203), pygame.Rect(x + 241, y + 31, 148, 22))
             for i, option in enumerate(self.save.data["users"]):
                 username = ""
                 score = option[1]

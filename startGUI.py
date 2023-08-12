@@ -19,13 +19,14 @@ class StartGUI:
         is_dropdown_open = False
         choose = False
         button_rect_exit = pygame.Rect(x + 200, y + 30, 150, 24)
+        button_rect = pygame.Rect(x, y, 150, self.FONT_SIZE)
+        exit_rect = pygame.Rect(x + 200, y, 150, self.FONT_SIZE)
         while not choose:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                    exit_rect = pygame.Rect(x + 200, y, 150, self.FONT_SIZE)
                     if button_rect_exit.collidepoint(event.pos) and not self.gf.is_game_mode:
                         if not self.gf.is_game_option:
                             self.gf.is_game_option = True
@@ -43,11 +44,9 @@ class StartGUI:
                         choose = True
                         break
                     if not is_dropdown_open:
-                        button_rect = pygame.Rect(x, y, 150, self.FONT_SIZE)
                         if button_rect.collidepoint(event.pos):
                             is_dropdown_open = True
                     else:
-                        button_rect = pygame.Rect(x, y, 150, self.FONT_SIZE)
                         if button_rect.collidepoint(event.pos):
                             is_dropdown_open = False
                         for i, option in enumerate(options):
@@ -56,19 +55,25 @@ class StartGUI:
                                 selected_option = option
                                 is_dropdown_open = False
             screen.fill(self.WHITE)
-            button_rect = pygame.Rect(x, y, 150, self.FONT_SIZE)
+            if button_rect.collidepoint(pygame.mouse.get_pos()):
+                self.gf.screen.fill((203, 203, 203), pygame.Rect(x + 1, y + 1, 148, 22))
+            if exit_rect.collidepoint(pygame.mouse.get_pos()):
+                self.gf.screen.fill((203, 203, 203), pygame.Rect(x + 201, y + 1, 148, 22))
             pygame.draw.rect(screen, self.BLACK, button_rect, 1)
             pygame.draw.polygon(screen, self.BLACK, [[165, 47], [175, 47], [170, 55]], 1)
             self.draw_text(screen, string1, (x + 5, y + 3))
-            button_rect_start = pygame.Rect(x + 200, y, 150, self.FONT_SIZE)
-            pygame.draw.rect(screen, self.BLACK, button_rect_start, 1)
+            pygame.draw.rect(screen, self.BLACK, exit_rect, 1)
             self.draw_text(screen, continue_str, (x + 226, y + 3))
             if not self.gf.is_game_mode:
+                if button_rect_exit.collidepoint(pygame.mouse.get_pos()):
+                    self.gf.screen.fill((203, 203, 203), pygame.Rect(x + 201, y + 31, 148, 22))
                 pygame.draw.rect(screen, self.BLACK, button_rect_exit, 1)
                 self.draw_text(screen, "Назад", (x + 251, y + 3 + 30))
             if is_dropdown_open:
                 for i, option in enumerate(options):
                     option_rect = pygame.Rect(x, y + (i + 1) * self.FONT_SIZE, 150, self.FONT_SIZE)
+                    if option_rect.collidepoint(pygame.mouse.get_pos()):
+                        self.gf.screen.fill((203, 203, 203), pygame.Rect(x + 1, 1 + y + (i + 1) * 24, 148, 22))
                     pygame.draw.rect(screen, self.BLACK, option_rect, 1)
                     self.draw_text(screen, option, (x + 5, 3 + y + (i + 1) * self.FONT_SIZE))
             if selected_option:

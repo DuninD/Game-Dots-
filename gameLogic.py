@@ -61,7 +61,7 @@ class GameLogic:
     def game_loop(self):
         computer = bots.Computer(self.gf.grid_size, self)
         self.players.draw_result()
-        button_rect_exit = pg.Rect(840, 160, 150, 24)
+        button_rect_exit = pg.Rect(828, 760, 150, 24)
         while not self.to_menu:
             for event in pg.event.get():
                 if event.type == pg.QUIT:
@@ -90,8 +90,10 @@ class GameLogic:
                             computer.hard_bot(i, j)
                         self.players.draw_result()
             self.gf.draw_circles()
-            self.gf.screen.fill((255, 250, 250), [[840, 159], [999, 230]])
-            self.gf.screen.blit(pg.font.Font(None, 24).render("Выйти в меню", True, (0, 0, 0)), (860, 163))
+            self.gf.screen.fill((255, 250, 250), [[830, 300], [999, 770]])
+            if button_rect_exit.collidepoint(pg.mouse.get_pos()):
+                self.gf.screen.fill((203, 203, 203), pg.Rect(829, 761, 148, 22))
+            self.gf.screen.blit(pg.font.Font(None, 24).render("Выйти в меню", True, (0, 0, 0)), (848, 763))
             pg.draw.rect(self.gf.screen, (0, 0, 0), button_rect_exit, 1)
             pg.display.flip()
 
