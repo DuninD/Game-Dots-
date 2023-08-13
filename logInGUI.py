@@ -7,7 +7,7 @@ class Account:
     def __init__(self, gui, save_data, gf):
         self.write_now = False
         self.current_text = ""
-        if len(save_data.data["users"]) > 0:
+        if save_data is not None and len(save_data.data["users"]) > 0:
             for letter in [chr(x) for x in save_data.data["users"][0][0]]:
                 self.current_text += letter
         self.gui = gui

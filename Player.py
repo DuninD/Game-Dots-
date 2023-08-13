@@ -16,14 +16,14 @@ class Players:
             self.catching_dots[player].append(dot)
 
     def draw_result(self):
-        self.gui.gf.screen.fill((255, 250, 250), [[840, 40], [999, 230]])
+        self.gui.gf.screen.fill((255, 250, 250), [[740, 40], [999, 230]])
         if self.gui.gf.with_bot:
-            self.gui.draw_text(self.gui.gf.screen, f"Ваши очки:    {self.points[0]}", (840, 40), (255, 0, 0))
-            self.gui.draw_text(self.gui.gf.screen, f"Компьютер:    {self.points[1]}", (840, 90), (0, 0, 255))
+            self.gui.draw_text(self.gui.gf.screen, f"Ваши очки:    {self.points[0]}", (740, 40), (255, 0, 0))
+            self.gui.draw_text(self.gui.gf.screen, f"Компьютер:    {self.points[1]}", (740, 90), (0, 0, 255))
         else:
-            self.gui.draw_text(self.gui.gf.screen, f"Игрок 1:    {self.points[0]}", (840, 40), (255, 0, 0))
-            self.gui.draw_text(self.gui.gf.screen, f"Игрок 2:    {self.points[1]}", (840, 90), (0, 0, 255))
+            self.gui.draw_text(self.gui.gf.screen, f"Игрок 1:    {self.points[0]}", (740, 40), (255, 0, 0))
+            self.gui.draw_text(self.gui.gf.screen, f"Игрок 2:    {self.points[1]}", (740, 90), (0, 0, 255))
             if self.gui.gf.count_players > 2:
-                self.gui.draw_text(self.gui.gf.screen, f"Игрок 3:    {self.points[2]}", (840, 140), (20, 250, 0))
+                self.gui.draw_text(self.gui.gf.screen, f"Игрок 3:    {self.points[2]}", (740, 140), (20, 250, 0))
                 if self.gui.gf.count_players == 4:
-                    self.gui.draw_text(self.gui.gf.screen, f"Игрок 4:    {self.points[3]}", (840, 190), (176, 31, 249))
+                    self.gui.draw_text(self.gui.gf.screen, f"Игрок 4:    {self.points[3]}", (740, 190), (176, 31, 249))

@@ -3,10 +3,10 @@ import pygame as pg
 
 class GameField:
     def __init__(self, grid_size, count_players):
-        self.win_width = 800
-        self.win_height = 800
+        self.win_width = 700
+        self.win_height = 700
         self.grid_size = grid_size
-        self.space = 800 // self.grid_size
+        self.space = 700 // self.grid_size
         self.screen = pg.display.set_mode((self.win_width + 200, self.win_height))
         self.grid = [[None for _ in range(grid_size)] for _ in range(grid_size)]
         self.players = [(255, 0, 0), (0, 0, 255), (20, 250, 0), (176, 31, 249)]
