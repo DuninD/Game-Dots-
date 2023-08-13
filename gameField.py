@@ -21,7 +21,6 @@ class GameField:
         self.is_game_option = True
         self.is_grid_size = True
 
-
     def update(self, grid_size, count_players):
         self.grid_size = grid_size
         self.space = 800 // self.grid_size

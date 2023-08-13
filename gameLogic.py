@@ -1,6 +1,7 @@
 import pygame as pg
 import sys
 import bots
+import datetime
 
 
 class GameLogic:
@@ -62,7 +63,13 @@ class GameLogic:
         computer = bots.Computer(self.gf.grid_size, self)
         self.players.draw_result()
         button_rect_exit = pg.Rect(728, 660, 150, 24)
+        timer = datetime.datetime.today()
         while not self.to_menu:
+            current_time = datetime.datetime.today()
+            delta_time = (current_time - timer).seconds
+            timer_count = 300 - int(delta_time)
+            minutes = timer_count // 60
+            seconds = timer_count % 60
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     pg.quit()
@@ -77,7 +84,7 @@ class GameLogic:
                     x, y = pg.mouse.get_pos()
                     i = round((x - self.gf.space // 2) / self.gf.space)
                     j = round((y - self.gf.space // 2) / self.gf.space)
-                    if i < self.gf.grid_size and self.gf.grid[i][j] is None:
+                    if i < self.gf.grid_size and self.gf.grid[i][j] is None and timer_count > 0:
                         self.next_move(i, j)
                         if self.gf.with_easy_bot:
                             computer.easy_bot()
@@ -91,6 +98,12 @@ class GameLogic:
                         self.players.draw_result()
             self.gf.draw_circles()
             self.gf.screen.fill((255, 250, 250), [[730, 300], [999, 770]])
+            if timer_count > 0:
+                self.gf.screen.blit(pg.font.Font(None, 24).render(str(minutes) + ":" + str(seconds), True, (0, 0, 0)),
+                                    (788, 633))
+            else:
+                self.gf.screen.blit(pg.font.Font(None, 24).render("Игра окончена", True, (0, 0, 0)),
+                                    (748, 633))
             if button_rect_exit.collidepoint(pg.mouse.get_pos()):
                 self.gf.screen.fill((203, 203, 203), pg.Rect(729, 661, 148, 22))
             self.gf.screen.blit(pg.font.Font(None, 24).render("Выйти в меню", True, (0, 0, 0)), (748, 663))
